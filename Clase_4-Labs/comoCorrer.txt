@@ -1,0 +1,7 @@
+En terminal:
+- npm init -y
+- npm install express
+- node ./nombreArchivo (ejemplo node ./expressCrudUsuarios.js)
+
+Luego probar endpoints en thunderclient/postman o metodos get en navegador (ver los que devuelven html localhost:3000/bienvenida y localhost:3000/cualquierCosa)
+

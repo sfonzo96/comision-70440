@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Pets List</title>
+        <style>
+            .card {
+                border: 1px solid #ccc;
+                border-radius: 8px;
+                padding: 16px;
+                margin: 16px;
+                width: 200px;
+                text-align: center;
+            }
+            .card img {
+                max-width: 100%;
+                border-radius: 8px;
+            }
+            .cards-container {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .pet-form {
+                display: flex;
+                flex-direction: column;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+        </style>
+    </head>
+    <body>
+        <form id="pet-form" class="pet-form" enctype="multipart/form-data">
+            <input type="text" name="name" placeholder="Pet Name" required />
+            <input
+                type="text"
+                name="description"
+                placeholder="Pet Description"
+                required
+            />
+            <input type="file" name="file" required />
+            <button type="submit">Agregar mascota</button>
+        </form>
+
+        <h1>Pets List</h1>
+        <div class="cards-container" id="pets-container"></div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", async () => {
+                await getPets();
+
+                document
+                    .getElementById("pet-form")
+                    .addEventListener("submit", async (event) => {
+                        event.preventDefault();
+                        const form = event.target;
+                        const formData = new FormData(form);
+                        try {
+                            const response = await fetch(
+                                "http://localhost:8080/api/pets",
+                                {
+                                    method: "POST",
+                                    body: formData,
+                                }
+                            );
+                            const data = await response.json();
+                            if (data.success) {
+                                alert("Pet added successfully");
+                                await getPets();
+                            } else {
+                                alert("Error adding pet");
+                            }
+                        } catch (error) {
+                            alert("Error adding pet");
+                            return;
+                        }
+                    });
+            });
+
+            async function getPets() {
+                try {
+                    const response = await fetch(
+                        "http://localhost:8080/api/pets"
+                    );
+                    const data = await response.json();
+                    console.log(data);
+                    if (data.success && data.pets.length === 0) {
+                        alert("No pets found");
+                        return;
+                    }
+
+                    const petsContainer =
+                        document.getElementById("pets-container");
+                    petsContainer.innerHTML = "";
+                    data.pets.forEach((pet) => {
+                        const card = document.createElement("div");
+                        card.className = "card";
+                        card.innerHTML = `
+                                <img src="http://${pet.image}" alt="${pet.name}" />
+                                <h2>${pet.name}</h2>
+                                <p>${pet.description}</p>
+                            `;
+                        petsContainer.appendChild(card);
+                    });
+                } catch (error) {
+                    console.log(error);
+                    alert("Error fetching pets");
+                }
+            }
+        </script>
+    </body>
+</html>

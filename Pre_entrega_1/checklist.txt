@@ -1,0 +1,34 @@
+Desarrollar server en puerto 8080, con dos grupos de rutas:
+-   products OK
+-   carts
+
+Productos (/api/products)
+-   GET '/': listar todos los productos con query opcional limit OK 
+-   GET '/:pid': traer producto específico de ese pid OK
+-   POST '/': agregar nuevo producto con campos:
+    -   id (autogenerado): numerico o alfanumerico 
+    -   title: string
+    -   description: string
+    -   code: string
+    -   price: number
+    -   status: boolean (default = true)
+    -   stock: number
+    -   category: string
+    -   thumbnails: [string] (unico no obligatorio)
+    OK
+-   PUT '/:pid': actualizar producto de id pid. Nunca se modifica id OK 
+-   DELETE '/:pid': eliminar producto (lógicamente, cambio de status a false) OK
+
+Carritos (/api/carts)
+-   POST '/': Crear nuevo carrito:
+    - id (autogenerado)
+    - products: [
+        {
+            product,
+            quantity
+        }
+    ]
+-   GET '/:pid': listar los productos que pertenezcan al carrito de id pid
+-   POST '/:pid': agregar producto al array products del carrito de id pid (si el producto ya existe, se modifica quantity)
+
+Persistencia en FileSystem ('fs') y archivos products.json y carts.json

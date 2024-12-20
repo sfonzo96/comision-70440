@@ -1,0 +1,23 @@
+[
+    {
+        "id": "ea1d24cc-49c2-43d6-9b19-ad6c3b401ca0",
+        "title": "titulo1",
+        "description": "descript",
+        "code": "aaa001",
+        "price": 1550,
+        "category": "sample1",
+        "status": true,
+        "thumbnails": true,
+        "stock": 1
+    },
+    {
+        "id": "5aad4982-bd54-483b-9c58-55e89f3ab3a7",
+        "title": "titulo2",
+        "description": "descript2",
+        "code": "aaa002",
+        "price": 1550,
+        "category": "sample1",
+        "status": true,
+        "thumbnails": true
+    }
+]
